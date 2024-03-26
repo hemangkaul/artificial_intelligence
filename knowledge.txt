@@ -1,0 +1,172 @@
+knowledge-based agents - agents that reason by operating on internal represantions of knowledge
+
+Logic
+sentence - an assertion about the world in a knowledge representation language
+
+Propositional Logic
+Propositional symbols == P Q R
+not -| and ^ or v
+implication -> biconditional <->
+
+Not:
+P      - P
+false  true
+true   false
+
+And:
+P      Q      P ^ Q
+false false  false
+false true   false
+true  false  false
+true  true   true
+
+Or:
+P      Q      P v Q
+false false  false
+false true   true
+true  false  true
+true  true   true
+
+Implication:
+P      Q      P -> Q
+false false  true
+false true   true
+true  false  false
+true  true   true
+
+Implication:
+P      Q      P <-> Q
+false false  true
+false true   false
+true  false  false
+true  true   true
+
+model = {P=true, Q=false} P: It is raining Q: It is a Tuesday
+
+knowledge base - a set of sentences known by a knowledge based agent
+
+Entailment
+ alpha |= beta
+ in every model in which sentence alpha is true, sentence beta is also true
+
+inference - the process of deriving new sentences from old ones
+
+P: It is a tuesday
+Q: It is raining
+R: Harry will go for a run
+
+KB: (P ^ ¬Q) -> R        and we know P It is a tuesday and ¬Q It is Not raining
+inference: R, Harry will go for a run
+
+Does KB |= alpha? this is ultimately what we are asking
+
+Model Checking
+to determine if KB |= alpha
+    - enumerate all possible models
+    - if in every model where kb is true alpha is true, then KB entails alpha
+    - otherwise KB does not entail alpha
+
+Knowledge Engineering
+Clue propositional symbols:
+People,  Rooms,  Weapons
+mustard ballroom knife
+plum    kitchen  revolver
+scarlet library  wrench
+
+(mustard v plum v scarlet) ^
+(ballroom v kitchen v library) ^
+(knife v revolver v wrench)
+we get a card plum so we know: ¬plum
+we guess mustard library revolver but it's wrong: ¬mustard v ¬library v ¬revolver
+
+Modus Ponens - application of information
+alpha -> beta
+if alpha is true then beta is true
+
+And elimination
+alpha ^ beta
+if alpha and beta then alpha is true and beta is true
+
+Double negation elimination
+¬(¬alpha) then we can say alpha is true
+
+implication elimination
+alpha -> beta then ¬alpha or beta
+
+biconditional elimination
+a <-> b then (a -> b) ^ (b -> a)
+
+De Morgan's Law
+¬(a ^ b) then ¬a v ¬b
+¬(a v b) then ¬a ^ ¬b
+
+Distributive Property
+a ^ (b v y) then (a ^ b) v (a ^ y)
+a v (b ^ y) then (a v b) ^ (a v y)
+
+Theorem Proving
+state = starting knowledge base
+action = inference rules
+transition model = new knowledge base after inference
+goal test = check statement we're trying to prove
+path cost function = number of steps in proof
+
+Resolution Rule
+P v Q
+¬P then Q
+
+P v Q
+¬P v R then Q or R
+
+conjunctive normal form (CNF) - logical sentence that is a conjunction of clauses
+e.g. (A v B v C) ^ (D v ¬E)
+
+COnversion to CNF
+- eliminate biconditionals
+- eliminate implications
+- move ¬ inwards using De Morgan's Laws
+- use distributive law to distribute v wherever possible
+
+inference by resolution
+(P v Q) -> R
+¬(P v Q) v R        eliminate implication
+(¬P ^ ¬Q) v R       De Morgan's Law
+(¬P v R) ^ (¬Q v R) distributive law
+
+The empty clause
+always false
+P ^ ¬P resolves to () == false
+
+ibr
+-To determine if KB |= a:
+    - Check if (KB ^ ¬a) is a contradiction
+        - if so then KB |= a
+        - otherwise no entailment
+    - Convert (KB ^ ¬a) to CNF
+    - Keep checking to see if we can use resolution produce a new clause
+        - if ever we produce the empty clause (equivalent to false) we have a contradiction, and KB |= a
+        - otherwise, if we can't add new clauses no entailment
+
+Does (A v B) ^(¬B v C) ^ (¬C) entail A?
+(A v B) ^(¬B v C) ^ (¬C) ^ (¬A)   check if contradiction
+(A v B) (¬B v C)  (¬C) (¬A) : (¬B) (A) () complimentary literals produce inferences
+
+First-Order Logic
+constant symbol    predicate symbol
+minerva            person
+horace             house
+pomona             belongsTo
+
+Person(Minerva)    Minerva is a person
+House(Gryffindor)  Gryffindor is a house
+¬House(Minerva)    Minerva is not a house
+BelongsTo(Minerva, Gryffindor) Minerva belongs to Gryffindor
+
+Universal Quantification
+A^For all x. BelongsTo(x, Gryffindor) -> ¬BelongsTo(x, Hufflepuff)
+expresses the idea that something holds true for all values of a variable
+
+Existential Quantification
+E<There is some x. House(x) ^ BelongsTo(Minerva, x)
+
+A^x. Person(x) -> (E<y. House(y) ^ BelongsTo(x, y))

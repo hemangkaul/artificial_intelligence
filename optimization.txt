@@ -1,0 +1,133 @@
+optimization - choosing the beset option from a set of options
+local search - search algorithms that maintain a single node and searches by moving to a neighboring node
+
+state-space landscape
+    - global maximum of objective function
+    - global minimum of cost function
+
+Hill climbing
+function Hill-Climb(problem)
+    current = initial state of problem
+    repeat:
+        neighbor = highest valued neighbor of current
+        if neighbor not better than current:
+            return current
+        current = neighbor
+
+shoulder or flat local maxima
+
+hill climbing variants
+steepest ascent = choose the highest valued neighbor
+stochastic = choose randomly from higher valued neighbors
+first-choice = choose the first higher-valued neighbor
+random -restart = conduct hill climbing multiple times
+local beam search = choose the k highest-valued neighbors
+
+simulated annealing
+    - early on , higher "temperature": more likely to accept neighbors that are worse than current state
+    - later on, lower "temperature": less likely to accept neighbors that are worse than current state
+
+function SIMULATED-ANNEALING(problem, max):
+    current = initial state of problem
+    for t = 1 to max:
+        T = Temperature(t)
+        neighbor = random neighbor of current
+        deltaE = how much better neighbor is than current
+        if deltaE > 0:
+            current = neighbor
+        with probability e^(deltaE/T) set current = neighbor
+    return current
+
+Traveling salesman problem
+
+Linear programming
+    - minimize a cost function cx + cx2 + ... CnXn
+    - with constraints of form ax + ax2 + ... anxn <= b
+        or of form = b
+    - with bounds for each variable l < x < u
+
+-Two machines X1 and X2. X1 costs $50 /hour to run, X2 costs $80/hour to run. goal to minimize cost
+- x1 requires 5 units of labor per hour. X2 requires 2 units of labor per hour. TOtal of 20 units of labor to spend.
+- x1 produces 10 units of output per hour. x2 produces 12 units of output per hour. company needs 90 units of output
+
+- cost function = 50x1 + 80x2
+- constraint = 5x1 + 2x2 <= 20
+- constraint = 10x1 + 12x2 => 90 or -10x1 + -12x2 <= - 90
+
+- simplex
+- interior point
+
+constraint satisfaction
+hard constraints - constraints that must be satisified in a correct solution
+soft constraints - constraints that express some notion of which solutions are preferred over others
+
+unary constraint - contraint that involves a single variable
+{A != Monday }
+binary constraint - constraint that involves two variables
+{a != B}
+node consistency - when all the values in a variables domain satisfy the variables unary constraints
+arc (edge) consistency - when all the values in a variables domain satisfy the variables's binary constraints
+ - to make X arc-consistent with respect to Y, remove elements from X's domain until every choice for X has a possible choice for Y
+
+function Revise(csp, X, Y):
+    revised = false
+    for x in X.domain:
+        if no y in Y.domain satisfies constraint (csp) for (X, Y):
+            delete x from X.domain
+            revised = true
+    return revised
+
+function AC-3(csp):
+    queue = all arcs in csp
+    while queue non-empty:
+        (X, Y) = DEQUEUE(queue)
+        if revise(csp, X, Y):
+            if size of X.domain == 0:
+                return false
+            for each Z in X.neighbors - {Y}:
+                ENQUEUE(queue, (Z, X))
+    return true
+
+CSPs as Search Problems:
+- intial state: empty assignment (no variables)
+- actions: add a {variable = value} to assignment
+- transition model: shows how adding an assignment changes the assignment
+- goal test: check if all variables assigned and constraints satisfied
+- path cost function : all paths have the same cost
+
+Backtracking Search:
+function BACKTRACK(assignment, csp):
+    if assignment complete: return assignment
+    var = SELECT_UNASSIGNED_VAR(assignemtn, csp)
+    for value in DOMAIN-VALUES(var, assignment, csp)
+        if value consistent with assignment:
+            add {var = value} to assignment
+            result = BackTrack(assignment, csp)
+            if result != failure: return result
+        remove {var = value} from assignment
+    return failure
+
+maintaining arc-consistency
+algorithm for enforcing arc consistency every time we make a new assignment
+-when we make a new assignment to X calls AC-3 starting with a queue of all arcs (Y,X) where Y is a neighbor of X
+
+function BACKTRACK(assignment, csp):
+    if assignment complete: return assignment
+    var = SELECT_UNASSIGNED_VAR(assignemtn, csp)
+    for value in DOMAIN-VALUES(var, assignment, csp)
+        if value consistent with assignment:
+            add {var = value} to assignment
+            inferences = INFERENCE(assignment, csp) ***
+            if inferences != failure: add inferences to assignment ***
+            result = BackTrack(assignment, csp)
+            if result != failure: return result
+        remove {var = value} and inferences*** from assignment
+    return failure
+
+Select Unassigned var func =
+    - minimum remaining values heuristic: select the variable that has the smallest domain
+    - degree heuristic: select the variable that has the highest degree
+
+Domain Values
+    - least constraining values heursitic: return variables in order by number of choices that are ruled out for neighboring variables
+        -try least constraining values first

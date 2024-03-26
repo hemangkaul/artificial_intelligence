@@ -1,0 +1,76 @@
+neural networks
+- neurons are connected to and receive electrical signals from other neurons
+- neurons process input signals and can be activated
+
+mathematical model for learning inspired by biological neural networks
+artificial neural networks
+- model mathematical function from inputs to outputs based on the structure and parameters of the network
+- allows for learning the network''s parameters based on data
+
+(x1, x2) -> is it going to rain
+h(x1, x2) = w0 + w1x1 + w2x2
+need some threshold / activation function
+e.g. some g(), step function, logistic sigmoid e^x / e^x + 1, rectified linear unit
+h(x1, x2) = g(w0 + w1x1 + w2x2)
+
+How to train neural networks:
+gradient descent
+- algorithm for minimizing loss when training a neural network
+- start with a random choice of weights
+- Repeat
+    - calculate the gradient based on all data points: direction that will lead to decreasing loss
+    - update weights according to the gradient
+stochastic gradient descent calculates based on one data point
+mini batch gradient descent calculates based on on small batch of data
+
+Peceptron
+- only capable of learning linearly seprable decision boundary
+
+Multilayer neural network
+- artifical neural network with an input layer, an output layer, and at least one hidden layer
+
+backpropagation
+- algorithm for training neural networks with hidden layers
+
+Start witha random choice of weights
+Repeat
+    - calculate error for output layer
+    - for each layer, starting with output layer, and moving inwards towards earliest hidden layer
+        - propagate error back one layer
+        - update weights
+
+deep neural networks
+- neural network with multiple hidden layers
+
+overfitting
+dropout
+-temporarily removing units -- selected at random -- from a neural network to prevent over-reliance on certain units
+
+TensorFlow
+playground.tensorflow.org
+
+computer vision
+-computational methods for analyzing and understanding digital images
+
+image convolution
+applying a filter that adds each pixel value of an image to its neighbors, weighted according to a kernel matrix
+
+pooling
+- reducing the size of an input by sampling from regions in the input
+
+max-pooling
+- pooling by choosing the maximum value in each region
+
+convolutional neural network
+-neural networks that use convolution, usually for analyzing images
+
+feed forward neural network
+-neural network that has connoections only in one direction
+input -> network -> output
+
+recurrent neural network
+
+long short term memory
+
+
+

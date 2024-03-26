@@ -1,0 +1,115 @@
+0 SEARCH
+
+agent - entity that percieves and acts on environmnet
+state - a configuration of the agent and its environment
+initial state - where agent starts
+actions - Action(s) returns the set of actions that can be executed in state s
+transition model - Result(s, A) returns the state resulting from action(s) on state
+state space - the set of all states
+goal test - a way to determine whether given states is a goal state
+path cost - numerical cost associated with a given path
+
+
+search problems
+-initial state
+-actions
+-transition model
+-goal test
+-path cost function
+-optimal solution : a solution that has the lowest path cost of all solutions
+
+node
+a data structure that keeps track of
+- a state
+- a parent (node that generated this node)
+- an action (action applied to parent to get node)
+- a path cost (from initial state to node)
+
+Approach
+- start with a frontier that contains the initial state
+- repeat:
+    - if the frontier is empty then no solution
+    - remove a node from the frontier
+    - if node contains goal state, return the solution
+    - expand node, add resulting nodes to the frontier
+
+Revised Approach
+- start with a frontier that contains the initial state
+- start with an empty explored set
+- repeat:
+    - if the frontier is empty no soluton
+    - remove a node from the frontier
+    - if node contains goal state return solution
+    - add the node to the explored set
+    - expand node, add resulting nodes to the frontier if they aren't already in the frontier or explored set
+
+stack frontier = last-in first-out ->
+depth-first search
+search algorithm that always expands the deepest node in the frontier
+
+queue frontier = first-in first-out ->
+breadth-first search
+search algorithm that always expands the shallowest node in the frontier
+
+uninformed search
+search strategy that uses no problem-specific knowledge
+
+informed search
+search strategy that uses problem-specific knowledge to find solutions more efficiently
+
+greedy best-first search
+gbfs is a search algorithm that expands the node that is closest to the goal, as estimated by a heuristic function h(n)
+
+A* search
+search algorith mthat expands node with lowest value of g(n) + h(n)
+
+g(n) = cost to reach node, steps
+h(n) = estimated cost to goal
+
+optimal if
+- h(n) is admissable (never overestimates the true cost) and
+- h(n) is consistent (for every node n and successor n' with step cost c, h(n) <= h(n') + c)
+
+Adversarial Search
+Minimax
+lose -1, tie 0, win 1
+Max (x) aims to maximize score
+Min (o) aims to minimize score
+- Given a state s:
+    - MAX picks action a in actions(s) that produces highest value of Min-Value(Result(s,a))
+    - MIN picks action a in Actions(s) that produces smallest value of Max-Value(Result(s,a)
+
+function MAX_VALUE(state):
+    if Terminal(state):
+        return Utility(state)
+    v = -infinity
+    for action in Actions(state):
+        v = MAX(v, MIN_VALUE(Result(state, action)))
+    return v
+
+function MIN_VALUE(state):
+    if Terminal(state):
+        return Utility(state)
+    v = infinity
+    for action in Actions(state):
+        v = MIN(v, MAX_VALUE(Result(state, action)))
+    return v
+
+Game
+- S0 : initial state
+- Player(S) : returns which player to move in state s
+- Action(S) : returns legal moves in state s
+- Result(s, a) : returns state after action a taken in state s
+- Terminal(s) : checks if state s is a terminal state
+- Utility(s): Final numerical value of a given state
+
+Alpha-Beta pruning
+-removing leafs from node based on min value being
+
+Depth-Limited minimax
+-looks n number of moves ahead
+
+evaluation function
+-function that estimates the expected utility of the game from a given state
+
+

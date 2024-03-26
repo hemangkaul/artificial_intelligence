@@ -1,0 +1,54 @@
+Natural Language processing
+-automatic summarization
+-information extraction
+-machiine translation
+-question answering
+-text classification
+-...
+
+Syntax
+
+Semantics
+-Colorless green ideas sleep furiously
+
+formal grammer
+-a system of rules for generating sentences in a language
+
+context free grammar
+
+nltk
+cfg.py
+
+n-gram
+a contiguous sequence of n items from a sample of text
+
+tokenization
+the task of splitting a sequence of character into pieces (tokens)
+
+markov chains
+some sequence of values we can predict values based on the values before it
+
+text classification
+
+bag-of-words model
+-model that represents text as an unordered collection of words
+
+Naive Bayes
+P(b|a) = P(a|b)P(b)/P(a)
+
+Laplace smoothing
+adding 1 to each value in our distribution:
+pretending we've seen each value one more time than we actually have
+
+Word Representation
+he [1,0,0,0]
+wrote [0, 1,0,0]
+
+one-hot represntation
+representation of meaning as a vector with a single 1 and with other values as 0
+
+"you shall know a word by the company it keeps"
+
+Transformers
+
+

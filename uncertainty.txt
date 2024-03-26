@@ -1,0 +1,119 @@
+Probability
+Possible worlds (w - omega)
+P(w) - the probability of some possible world omega
+0 <= P(w) <= 1
+Sum_w->W(P(w)) = 1 (the probability a die lands on a number 1->6)
+
+unconditonal probability: degree of belief in a proposition in the absence of any other evidence
+conditional probability: degree of belief in a poropistion given some evidence that has already been revealed
+
+P(a|b) - probability a is true given b
+
+P(a|b) = P(a ^ b)/P(b)
+
+random variable = a variable in probability theory with a domain of values that it can take on, e.g.
+weather = {sun, cloud, rain , wind, snow}
+roll = {1,2,3,4,5,6}
+flight = {on time, delayed, cancelled}
+
+probability distribution = assigns probability to random variables
+P(flight) = <0.6,.3,.1>
+
+independence - the knowledge that one event occurs does not affect the probability of the other event
+P(a ^ b) = P(a)P(b)
+
+Bayes' Rule
+P(a ^ b) = P(a)P(b|a)
+P(a ^ b) = P(b)P(a|b)
+P(a)P(b|a) = P(b)P(a|b)
+*P(b|a) = P(a|b)P(b)/P(a)*
+
+Given clouds in the morning, what's the probability there will be rain in the afternoon?
+- 80% of rainy afternoons start with cloudy mornings
+- 40% have cloudy mornings
+- 10% of days have rainy afternoons
+
+P(rain|clouds) = P(clouds|rain)P(rain)/P(clouds)
+
+knowing P(visible effect | unknown cause)
+we can calculate P(unknown cause | visible effect)
+
+Joint probability - the probability of both occuring
+
+P(clouds|rain) = P(clouds ^ rain)/P(rain) = alphaP(clouds ^ rain)
+               = alpha<0.08, .02> = <0.8,0.2>
+
+Negation = P(not a) = 1 - P(a)
+
+P(a or b) = P(a) + P(b) - P(a and b)
+
+Marginalization
+P(a) = P(a, b) + P(a, not b)
+
+P(X = xi) = Sum_jP(X = xi, Y = yj)
+
+Conditioning
+P(a) = P(a|b)P(b) + P(a|not b)P(not b)
+P(X = xi) = Sum_jP(X = xi | Y = yj)P(Y = yj)
+
+Bayesian network
+data structure that represents the dependence among random variables
+- directed graph
+- each node represents a random variable
+- arrow from X to Y means X is a parent of Y
+- each node X has probability distribution P(X|Parents(X))
+
+Inference
+- Query X: variable for which to compute distribution
+- Evidence variables E: observed variables for event e
+- Hidden variables Y: non evidence variables, non query variables
+- Goal: Calculate P(X|e)
+
+by enumeration
+
+P(X|e) = alpha P(X, e) = alpha Sum_yP(X, e, y)
+X is the query variable
+e is the evidence
+y ranges over values of hidden variables
+alpha normalizes the result
+
+Sampling
+rejection sampling
+- removing samples given evidence
+likelihood weighting
+- start by fixing the values for evidence variables
+- sample the non-evidence variables using conditional probabilites in the Bayesian network
+- weight each sample by its likelihood: the probability of the evidence
+
+Uncertainty over time
+Markov assumption
+the assumption that the current state depends on only a finite fixed number of previous states
+
+Markov Chain
+a sequence of random variables where the distribution of each variable follows the Markov assumption
+
+Transition model
+
+Hidden state    |    Observation
+robots position | robot's sensor data
+words spoken    | audio waveforms
+user engagement | website or app analytics
+weather         | umbrella
+
+Hidden Markov Model
+a markov model for a system with hidden states that generate some observed event
+
+sensor model
+
+sensor Markov assumption
+the assumption that the evidence variable depends only on the corresponding state
+
+task     | definition
+filtering: given observations from start until now, calculate distribution for current state
+prediction: given observations from start until now, calculate distribution for future state
+smoothing: given observations from start until now, calculate distrubtion for past state
+most likely explanation: given observations from start until now, calculate most likely sequence of states
+
+
+
+
